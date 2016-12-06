@@ -31,11 +31,15 @@ public class Percolation {
         virtualBottomIndex = nSize*nSize + 1;
         
         openSites = new boolean[n*n + 2];
-        // Don't really need but makes indices match up
         openSites[virtualTopIndex] = true;
         openSites[virtualBottomIndex] = true;
 
-        // Create wquf object with two virtual sites
+//        for (int i = 1; i <= n*n; i++) {
+//            openSites[i] = false;
+//        }
+
+        // create wquf object with two virtual sites
+        // Need to check mapping to wquf
         wquf = new WeightedQuickUnionUF(n*n+2);
     }
 
@@ -69,14 +73,14 @@ public class Percolation {
             }
         }
         // Right neightbor
-        if (col < nSize) {
+        if (col + 1 <= nSize) {
             if (isOpen(row, col + 1) && !isConnectedWithNeighbor(getIndex(row, col + 1), currentIndex)) {
                 wquf.union(getIndex(row, col + 1), currentIndex);
             }
         }
 
         // Top neighbor
-        if (row < nSize) {
+        if (row + 1 <= nSize) {
             if (isOpen(row + 1, col) && !isConnectedWithNeighbor(getIndex(row + 1, col), getIndex(row, col))) {
                 wquf.union(getIndex(row + 1, col), getIndex(row, col));
             }
@@ -116,15 +120,6 @@ public class Percolation {
         return wquf.connected(p, q);
     }
 
-    // Check if a specified neighbor site is open
-    private boolean isNeighborOpen(int row, int col) {
-        if (row < 1 || col < 1 || row > nSize || col > nSize) {
-            return isOpen(row, col);
-        } else {
-            return false;
-        }
-    }
-
     // Ensure the row/columns are within range, need to change in main fucntion when checking neighbors
     private void acceptableRange(int row, int col) {
         if (row < 1 || col < 1 || row > nSize || col > nSize) {
@@ -135,7 +130,12 @@ public class Percolation {
     public static void main(String[] args) {    // test client (optional)
         Percolation testing = new Percolation(2);
         testing.open(1,1);
-        testing.open(2,2);
-        System.out.println("percolates? " + testing.percolates());
+        testing.open(1,2);
+//        testing.open(2,2);
+//        testing.open(2,3);
+//        testing.open(3,3);
+//        testing.open(4,4);
+//        testing.open(3,4);
+        System.out.println("Percolates? " + testing.percolates());
     }
 }
