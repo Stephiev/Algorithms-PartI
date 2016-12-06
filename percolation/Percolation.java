@@ -103,7 +103,7 @@ public class Percolation {
     // is site (row, col) full?
     public boolean isFull(int row, int col) {
         acceptableRange(row, col);
-        return (!openSites[getIndex(row, col)]);
+        return (wquf.connected(virtualTopIndex, getIndex(row, col)));
     }
 
     // does the system percolate?
