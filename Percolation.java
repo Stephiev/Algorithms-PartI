@@ -123,15 +123,15 @@ public class Percolation {
     // Ensure the row/columns are within range, need to change in main fucntion when checking neighbors
     private void acceptableRange(int row, int col) {
         if (row < 1 || col < 1 || row > nSize || col > nSize) {
-                throw new java.lang.IndexOutOfBoundsException();
+            throw new java.lang.IndexOutOfBoundsException("row or column index is out of bounds");
         } 
     }
 
     public static void main(String[] args) {    // test client (optional)
         Percolation testing = new Percolation(2);
-        testing.open(1,1);
-        testing.open(1,2);
-//        testing.open(2,2);
+        testing.open(1, 1);
+        testing.open(1, 2);
+        testing.open(2, 2);
 //        testing.open(2,3);
 //        testing.open(3,3);
 //        testing.open(4,4);
