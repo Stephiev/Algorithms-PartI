@@ -17,7 +17,6 @@ public class PercolationStats {
             throw new java.lang.IllegalArgumentException("n and trials cannot be less than 1");
         }
         
-
         trialsArray = new double[trials];
         this.trials = trials;
      
@@ -41,14 +40,8 @@ public class PercolationStats {
                     StdOut.println("openSitefound? " + openSitefound);
                 }
                 percolation.open(row, col);
-                threshold++;
+                threshold += 1;
                 
-//                int row = StdRandom.uniform(1, n);
-//                int col = StdRandom.uniform(1, n);
-//                if (percolation.isOpen(row, col)) { // so threshold is increased only when it's not an already open site 
-//                    percolation.open(row, col);
-//                    threshold++;
-//                }
             }
             StdOut.println("Threshold is: " + threshold);
             trialsArray[i] = (double) threshold / (n * n);
