@@ -39,7 +39,7 @@ public class Percolation {
             wquf.union(virtualTopIndex, currentIndex);
         }
          // Connect to bottom
-        if (row == nSize) {
+        if (row == nSize && isFull(row, col)) {
             wquf.union(virtualBottomIndex, currentIndex);
         }
 
