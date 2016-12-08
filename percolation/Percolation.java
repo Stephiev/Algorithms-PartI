@@ -55,7 +55,7 @@ public class Percolation {
             int leftNeighbor = getIndex(row, col - 1);
             if (isOpen(row, col - 1) && !isConnectedWithNeighbor(leftNeighbor, currentIndex)) {
                 // connect them
-                wquf.union(leftNeighbor, currentIndex);
+                wquf.union(getIndex(row, col - 1), currentIndex);
             }
         }
         // Right neightbor
@@ -69,8 +69,8 @@ public class Percolation {
         // Top neighbor
         if (row + 1 <= nSize) {
             int topNeighbor = getIndex(row + 1, col);
-            if (isOpen(row + 1, col) && !isConnectedWithNeighbor(topNeighbor, getIndex(row, col))) {
-                wquf.union(topNeighbor, getIndex(row, col));
+            if (isOpen(row + 1, col) && !isConnectedWithNeighbor(topNeighbor, currentIndex)) {
+                wquf.union(topNeighbor, currentIndex);
             }
         }
 
