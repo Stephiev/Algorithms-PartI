@@ -70,17 +70,9 @@ public class PercolationStats {
         if (args.length != 2) {
             return;
         }
-//        int N = Integer.parseInt(args[0]);
-//        int T = Integer.parseInt(args[1]);
-//        StdOut.println("Creating a percolation object");
-//        Percolation grid = new Percolation(2);
-//        grid.open(1,1);
-//        grid.percolates();
-//        
         PercolationStats percolationStats = new PercolationStats(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
         StdOut.println("mean = " + percolationStats.mean());
         StdOut.println("stddev = " + percolationStats.stddev());
         StdOut.println("95% confidence interval = " + percolationStats.confidenceLo() + ", " + percolationStats.confidenceHi());
-//        
     }   // test client (described below)
 }

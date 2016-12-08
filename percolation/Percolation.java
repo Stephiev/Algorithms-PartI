@@ -61,6 +61,7 @@ public class Percolation {
             if (isOpen(row, col - 1) && !isConnectedWithNeighbor(leftNeighbor, currentIndex)) {
                 // connect them
                 wquf.union(leftNeighbor, currentIndex);
+                backwashUF.union(leftNeighbor, currentIndex);
             }
         }
         // Right neightbor
@@ -68,6 +69,7 @@ public class Percolation {
             int rightNeighbor = getIndex(row, col + 1);
             if (isOpen(row, col + 1) && !isConnectedWithNeighbor(rightNeighbor, currentIndex)) {
                 wquf.union(rightNeighbor, currentIndex);
+                backwashUF.union(rightNeighbor, currentIndex);
             }
         }
 
@@ -76,6 +78,7 @@ public class Percolation {
             int topNeighbor = getIndex(row + 1, col);
             if (isOpen(row + 1, col) && !isConnectedWithNeighbor(topNeighbor, currentIndex)) {
                 wquf.union(topNeighbor, currentIndex);
+                backwashUF.union(topNeighbor, currentIndex);
             }
         }
 
@@ -84,6 +87,7 @@ public class Percolation {
             int bottomNeighbor = getIndex(row - 1, col);
             if (isOpen(row - 1, col) && !isConnectedWithNeighbor(bottomNeighbor, currentIndex)) {
                 wquf.union(bottomNeighbor, currentIndex);
+                backwashUF.union(bottomNeighbor, currentIndex);
             }
         }
     }
@@ -97,13 +101,13 @@ public class Percolation {
     // is site (row, col) full?
     public boolean isFull(int row, int col) {
         acceptableRange(row, col);
-        return (wquf.connected(virtualTopIndex, getIndex(row, col)));
+        return (backwashUF.connected(virtualTopIndex, getIndex(row, col)));
     }
 
     // does the system percolate?
     public boolean percolates() {
         StdOut.println("percolates? " + wquf.connected(virtualTopIndex, virtualBottomIndex));
-        return wquf.connected(virtualTopIndex, virtualBottomIndex);
+        return   wquf.connected(virtualTopIndex, virtualBottomIndex);
     }
 
     private int getIndex(int row, int col) {
