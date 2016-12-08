@@ -3,15 +3,6 @@
  *  Nov. 30th, 2016
  *  Percolation Data Model Object
  *---------------------------------------------------------*/
-
-//    Corner cases.  By convention, the row and column indices are integers between
-//    1 and n, where (1, 1) is the upper-left site: Throw a 
-//    java.lang.IndexOutOfBoundsException if any argument to open(), isOpen(), or
-//    isFull() is outside its prescribed range. The constructor should throw a 
-//    java.lang.IllegalArgumentException if n ≤ 0.
-
-// import edu.princeton.cs.algs4.StdRandom;
-// import edu.princeton.cs.algs4.StdStats;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
@@ -30,17 +21,11 @@ public class Percolation {
         nSize = n;
         virtualBottomIndex = nSize*nSize + 1;
         
-        openSites = new boolean[n*n + 2];
+        openSites = new boolean[n*n + 2]; // Adding to keep the index mapping easy, all initally set to false i.e. blocked
         openSites[virtualTopIndex] = true;
         openSites[virtualBottomIndex] = true;
 
-//        for (int i = 1; i <= n*n; i++) {
-//            openSites[i] = false;
-//        }
-
-        // create wquf object with two virtual sites
-        // Need to check mapping to wquf
-        wquf = new WeightedQuickUnionUF(n*n+2);
+        wquf = new WeightedQuickUnionUF(n*n + 2);  // Adding virtual sites
     }
 
     // open site (row, col) if it is not open already
@@ -48,7 +33,7 @@ public class Percolation {
         acceptableRange(row, col); 
         int currentIndex = getIndex(row, col);
       
-        // Because they're all intiially blocked you can connect them to the virtual sites here
+        // Because they're all intiially blocked you can connect them to the virtual sites here... backwash
         // Connect to top
         if (row == 1) {
             wquf.union(virtualTopIndex, currentIndex);
@@ -67,29 +52,33 @@ public class Percolation {
         // If neighors are open, connect the two
         // Left neighbor
         if (col - 1 > 0) {
-            if (isOpen(row, col - 1) && !isConnectedWithNeighbor(getIndex(row, col - 1), currentIndex)) {
+            int leftNeighbor = getIndex(row, col - 1);
+            if (isOpen(row, col - 1) && !isConnectedWithNeighbor(leftNeighbor, currentIndex)) {
                 // connect them
-                wquf.union(getIndex(row, col - 1), currentIndex);
+                wquf.union(leftNeighbor, currentIndex);
             }
         }
         // Right neightbor
         if (col + 1 <= nSize) {
-            if (isOpen(row, col + 1) && !isConnectedWithNeighbor(getIndex(row, col + 1), currentIndex)) {
-                wquf.union(getIndex(row, col + 1), currentIndex);
+            int rightNeighbor = getIndex(row, col + 1);
+            if (isOpen(row, col + 1) && !isConnectedWithNeighbor(rightNeighbor, currentIndex)) {
+                wquf.union(rightNeighbor, currentIndex);
             }
         }
 
         // Top neighbor
         if (row + 1 <= nSize) {
-            if (isOpen(row + 1, col) && !isConnectedWithNeighbor(getIndex(row + 1, col), getIndex(row, col))) {
-                wquf.union(getIndex(row + 1, col), getIndex(row, col));
+            int topNeighbor = getIndex(row + 1, col);
+            if (isOpen(row + 1, col) && !isConnectedWithNeighbor(topNeighbor, getIndex(row, col))) {
+                wquf.union(topNeighbor, getIndex(row, col));
             }
         }
 
         // Bottom neighbor
         if (row - 1 > 0) {
-            if (isOpen(row - 1, col) && !isConnectedWithNeighbor(getIndex(row - 1, col), getIndex(row, col))) {
-                wquf.union(getIndex(row - 1, col), getIndex(row, col));
+            int bottomNeighbor = getIndex(row - 1, col);
+            if (isOpen(row - 1, col) && !isConnectedWithNeighbor(bottomNeighbor, getIndex(row, col))) {
+                wquf.union(bottomNeighbor, getIndex(row, col));
             }
         }
     }
@@ -111,7 +100,7 @@ public class Percolation {
         return wquf.connected(virtualTopIndex, virtualBottomIndex);
     }
 
-    public int getIndex(int row, int col) {
+    private int getIndex(int row, int col) {
         return nSize*row - (nSize - col);
     }
 
@@ -128,14 +117,10 @@ public class Percolation {
     }
 
     public static void main(String[] args) {    // test client (optional)
-        Percolation testing = new Percolation(2);
-        testing.open(1, 1);
-        testing.open(1, 2);
-        testing.open(2, 2);
-//        testing.open(2,3);
-//        testing.open(3,3);
-//        testing.open(4,4);
-//        testing.open(3,4);
-        System.out.println("Percolates? " + testing.percolates());
+//        Percolation testing = new Percolation(2);
+//        testing.open(1, 1);
+//        testing.open(1, 2);
+//        testing.open(2, 2);
+//        System.out.println("Percolates? " + testing.percolates());
     }
 }
