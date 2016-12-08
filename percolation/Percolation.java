@@ -4,10 +4,12 @@
  *  Percolation Data Model Object
  *---------------------------------------------------------*/
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
+import edu.princeton.cs.algs4.StdOut;
 
 public class Percolation {
     private boolean[] openSites; // Array to keep track of open sites
     private WeightedQuickUnionUF wquf; // Weighted union find object
+    private WeightedQuickUnionUF backwashUF; // Weighted union find for backwash
     private int nSize; // Variable to be able to calculate index of site
     private int virtualTopIndex = 0; // Virtual top index
     private int virtualBottomIndex; // Virtual bottom index
@@ -26,10 +28,12 @@ public class Percolation {
         openSites[virtualBottomIndex] = true;
 
         wquf = new WeightedQuickUnionUF(n*n + 2);  // Adding virtual sites
+        backwashUF = new WeightedQuickUnionUF(n*n + 2);  // Adding virtual sites
     }
 
     // open site (row, col) if it is not open already
     public void open(int row, int col) {
+        StdOut.println("using a percolation object method");
         acceptableRange(row, col); 
         int currentIndex = getIndex(row, col);
       
@@ -37,9 +41,10 @@ public class Percolation {
         // Connect to top
         if (row == 1) {
             wquf.union(virtualTopIndex, currentIndex);
+            backwashUF.union(virtualTopIndex, currentIndex);
         }
          // Connect to bottom
-        if (row == nSize && isFull(row, col)) {
+        if (row == nSize) { // && isFull(row, col)) {
             wquf.union(virtualBottomIndex, currentIndex);
         }
 
@@ -97,6 +102,7 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
+        StdOut.println("percolates? " + wquf.connected(virtualTopIndex, virtualBottomIndex));
         return wquf.connected(virtualTopIndex, virtualBottomIndex);
     }
 

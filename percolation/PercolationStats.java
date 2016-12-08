@@ -17,20 +17,40 @@ public class PercolationStats {
             throw new java.lang.IllegalArgumentException("n and trials cannot be less than 1");
         }
         
-        Percolation percolation = new Percolation(n);
-        int threshold = 0;
+
         trialsArray = new double[trials];
         this.trials = trials;
-        
+     
         for (int i = 0; i < trials; i++) {
+            StdOut.println("Test %04d: " + i);
+
+            Percolation percolation = new Percolation(n);
+            int threshold = 0;
             while (!percolation.percolates()) {
-                int row = StdRandom.uniform(1, n);
-                int col = StdRandom.uniform(1, n);
-                if (percolation.isOpen(row, col)) { // so threshold is increased only when it's not an already open site 
-                    percolation.open(row, col);
-                    threshold++;
+                
+                boolean openSitefound = false;
+                int row = 0;
+                int col = 0;
+                while (!openSitefound) {
+                    
+                    row = StdRandom.uniform(1, n+1);
+                    col = StdRandom.uniform(1, n+1);
+                    StdOut.println("row " + row);
+                    StdOut.println("col " + col);
+                    openSitefound = !(percolation.isOpen(row, col));
+                    StdOut.println("openSitefound? " + openSitefound);
                 }
+                percolation.open(row, col);
+                threshold++;
+                
+//                int row = StdRandom.uniform(1, n);
+//                int col = StdRandom.uniform(1, n);
+//                if (percolation.isOpen(row, col)) { // so threshold is increased only when it's not an already open site 
+//                    percolation.open(row, col);
+//                    threshold++;
+//                }
             }
+            StdOut.println("Threshold is: " + threshold);
             trialsArray[i] = (double) threshold / (n * n);
         }
     }  
@@ -57,10 +77,17 @@ public class PercolationStats {
         if (args.length != 2) {
             return;
         }
+//        int N = Integer.parseInt(args[0]);
+//        int T = Integer.parseInt(args[1]);
+//        StdOut.println("Creating a percolation object");
+//        Percolation grid = new Percolation(2);
+//        grid.open(1,1);
+//        grid.percolates();
+//        
         PercolationStats percolationStats = new PercolationStats(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
         StdOut.println("mean = " + percolationStats.mean());
         StdOut.println("stddev = " + percolationStats.stddev());
         StdOut.println("95% confidence interval = " + percolationStats.confidenceLo() + ", " + percolationStats.confidenceHi());
-        
+//        
     }   // test client (described below)
 }
