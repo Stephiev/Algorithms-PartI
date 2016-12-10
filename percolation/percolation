@@ -10,8 +10,6 @@
 //    isFull() is outside its prescribed range. The constructor should throw a 
 //    java.lang.IllegalArgumentException if n ≤ 0.
 
-// import edu.princeton.cs.algs4.StdRandom;
-// import edu.princeton.cs.algs4.StdStats;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
@@ -33,10 +31,6 @@ public class Percolation {
         openSites = new boolean[n*n + 2];
         openSites[virtualTopIndex] = true;
         openSites[virtualBottomIndex] = true;
-
-//        for (int i = 1; i <= n*n; i++) {
-//            openSites[i] = false;
-//        }
 
         // create wquf object with two virtual sites
         // Need to check mapping to wquf
@@ -103,7 +97,7 @@ public class Percolation {
     // is site (row, col) full?
     public boolean isFull(int row, int col) {
         acceptableRange(row, col);
-        return (!openSites[getIndex(row, col)]);
+        return (wquf.connected(virtualTopIndex, getIndex(row, col)));;
     }
 
     // does the system percolate?
@@ -111,7 +105,7 @@ public class Percolation {
         return wquf.connected(virtualTopIndex, virtualBottomIndex);
     }
 
-    public int getIndex(int row, int col) {
+    private int getIndex(int row, int col) {
         return nSize*row - (nSize - col);
     }
 
@@ -128,14 +122,10 @@ public class Percolation {
     }
 
     public static void main(String[] args) {    // test client (optional)
-        Percolation testing = new Percolation(2);
-        testing.open(1, 1);
-        testing.open(1, 2);
-        testing.open(2, 2);
-//        testing.open(2,3);
-//        testing.open(3,3);
-//        testing.open(4,4);
-//        testing.open(3,4);
-        System.out.println("Percolates? " + testing.percolates());
+//        Percolation testing = new Percolation(2);
+//        testing.open(1, 1);
+//        testing.open(1, 2);
+//        testing.open(2, 2);
+//        System.out.println("Percolates? " + testing.percolates());
     }
 }

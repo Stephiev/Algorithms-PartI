@@ -4,7 +4,6 @@
  *  Percolation Data Model Object
  *---------------------------------------------------------*/
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
-import edu.princeton.cs.algs4.StdOut;
 
 public class Percolation {
     private boolean[] openSites; // Array to keep track of open sites
@@ -33,19 +32,21 @@ public class Percolation {
 
     // open site (row, col) if it is not open already
     public void open(int row, int col) {
-        StdOut.println("using a percolation object method");
         acceptableRange(row, col); 
         int currentIndex = getIndex(row, col);
       
-        // Because they're all intiially blocked you can connect them to the virtual sites here... backwash
+        // Because they're all intiially blocked you can connect them to the virtual sites here
         // Connect to top
         if (row == 1) {
             wquf.union(virtualTopIndex, currentIndex);
             backwashUF.union(virtualTopIndex, currentIndex);
         }
          // Connect to bottom
-        if (row == nSize) { // && isFull(row, col)) {
+        if (row == nSize) { 
             wquf.union(virtualBottomIndex, currentIndex);
+//            if  (isFull(row, col)) {
+//                  backwashUF.union(virtualBottomIndex, currentIndex);
+//            }
         }
 
         // Exit if already open
@@ -99,15 +100,14 @@ public class Percolation {
     }
 
     // is site (row, col) full?
-    public boolean isFull(int row, int col) {
+    public boolean isFull(int row, int col) { // needs recursion
         acceptableRange(row, col);
         return (backwashUF.connected(virtualTopIndex, getIndex(row, col)));
     }
 
     // does the system percolate?
     public boolean percolates() {
-        StdOut.println("percolates? " + wquf.connected(virtualTopIndex, virtualBottomIndex));
-        return   wquf.connected(virtualTopIndex, virtualBottomIndex);
+        return wquf.connected(virtualTopIndex, virtualBottomIndex);
     }
 
     private int getIndex(int row, int col) {

@@ -12,7 +12,6 @@ public class PercolationStats {
     private int trials;
     
     public PercolationStats(int n, int trials) {  // perform trials independent experiments on an n-by-n grid
-
         if (n <= 0 || trials <= 0) {
             throw new java.lang.IllegalArgumentException("n and trials cannot be less than 1");
         }
@@ -21,29 +20,21 @@ public class PercolationStats {
         this.trials = trials;
      
         for (int i = 0; i < trials; i++) {
-            StdOut.println("Test %04d: " + i);
-
             Percolation percolation = new Percolation(n);
             int threshold = 0;
             while (!percolation.percolates()) {
-                
                 boolean openSitefound = false;
                 int row = 0;
                 int col = 0;
                 while (!openSitefound) {
-                    
                     row = StdRandom.uniform(1, n+1);
                     col = StdRandom.uniform(1, n+1);
-                    StdOut.println("row " + row);
-                    StdOut.println("col " + col);
                     openSitefound = !(percolation.isOpen(row, col));
-                    StdOut.println("openSitefound? " + openSitefound);
                 }
                 percolation.open(row, col);
                 threshold += 1;
                 
             }
-            StdOut.println("Threshold is: " + threshold);
             trialsArray[i] = (double) threshold / (n * n);
         }
     }  
